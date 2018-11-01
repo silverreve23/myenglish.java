@@ -10,7 +10,7 @@ public class TestProgram {
 		JPanel panel = new JPanel();
 		JButton button = new JButton();
 		JTextField textField = new JTextField(10);
-		Dimension buttonSize = new Dimension(100, 40);
+		Dimension labelTextSize = new Dimension(200, 100);
 		Dimension ImageSize = new Dimension(600, 350);
 		JDialog window = new JDialog(new Frame(), true);
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -24,17 +24,24 @@ public class TestProgram {
 		Image ImageIcon = toolkit.getImage(imageIconPath);
 		Image ImageBody = toolkit.getImage(imageBodyPath);
 		JLabel labelIcon = new JLabel(new ImageIcon(ImageBody));
+		JLabel labelText = new JLabel();
 
 		labelIcon.setPreferredSize(ImageSize);
+        labelText.setText("Apple:");
+        labelText.setForeground(Color.WHITE);
+        labelText.setFont(fontTextField);
+        labelText.setPreferredSize(labelTextSize);
 		textField.setFont(fontTextField);
-		textField.setBackground(Color.GRAY);
-		textField.setBorder(BorderFactory.createLineBorder(Color.GRAY, 3));
-		button.setPreferredSize(buttonSize);
-		button.setBackground(Color.GRAY);
-		button.setText(textButton);
-		panel.setBackground(Color.black);
+		textField.setBackground(Color.BLACK);
+		textField.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+		textField.addActionListener(new AbstractAction(){
+            public void actionPerformed(ActionEvent e){
+                System.exit(0);
+            }
+        });
+        panel.setBackground(Color.BLACK);
+		panel.add(labelText);
 		panel.add(textField);
-		panel.add(button);
 		panel.add(labelIcon);
 		window.add(panel);
 		window.setResizable(false);
