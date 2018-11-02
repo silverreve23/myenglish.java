@@ -1,0 +1,6 @@
+cd /opt/myenglish.java/bin
+javac TestProgram.java
+while true; do
+    java -classpath ".:../drivers/sqlite-jdbc-3.23.1.jar" TestProgram
+    sleep 600
+done
