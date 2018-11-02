@@ -44,10 +44,10 @@ public class TestProgram {
 		textField.setBackground(Color.BLACK);
 		textField.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 		textField.addActionListener(new AbstractAction(){
+            private Integer attempt = 0;
             public void actionPerformed(ActionEvent e){
-                if(wordModel.trans.equals(textField.getText())){
-                    System.exit(0);
-                }
+                attempt = wordModel.checkTranslate(textField.getText());
+                if(attempt > 4) labelText.setText(wordModel.trans);
             }
         });
         panel.setBackground(Color.BLACK);
@@ -69,6 +69,7 @@ public class TestProgram {
 class WordsModel {
     public String word;
     public String trans;
+    public Integer attempt = 0;
     public WordsModel(){
         try{
             String url = "jdbc:sqlite:../db/words.db";
@@ -81,5 +82,12 @@ class WordsModel {
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
+    }
+
+    public int checkTranslate(String translate){
+        if(trans.equals(translate)){
+            System.exit(0);
+        }
+        return ++attempt;
     }
 }
