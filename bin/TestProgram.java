@@ -25,35 +25,18 @@ public class TestProgram {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Integer xSize = (int)toolkit.getScreenSize().getWidth();
 		Integer ySize = (int)toolkit.getScreenSize().getHeight();
-		String textButton = "Answer!";
 		String imageIconPath = "../img/icon.jpg";
 		String imageBodyPath = "../img/sbk.png";
 		String fontName = "SansSerif";
-		String labelTextWord = "Word:";
-		String labelTextTrans = "";
 		Font fontTextField = new Font(fontName, Font.BOLD, 29);
 		Image ImageIcon = toolkit.getImage(imageIconPath);
 		Image ImageBody = toolkit.getImage(imageBodyPath);
 		JLabel labelIcon = new JLabel(new ImageIcon(ImageBody));
 		JLabel labelText = new JLabel();
-
-        try{
-            String url = "jdbc:sqlite:../db/words.db";
-            Connection conn = DriverManager.getConnection(url);
-            String sql = "SELECT * FROM words LIMIT 1";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                labelTextWord = rs.getString("word") + ":";
-                labelTextTrans = rs.getString("trans");
-                System.out.println(rs.getInt("id"));
-            }
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
+        WordsModel wordModel = new WordsModel();
 
 		labelIcon.setPreferredSize(ImageSize);
-        labelText.setText(labelTextWord);
+        labelText.setText(wordModel.word + ":");
         labelText.setForeground(Color.WHITE);
         labelText.setFont(fontTextField);
         labelText.setPreferredSize(labelTextSize);
@@ -62,9 +45,9 @@ public class TestProgram {
 		textField.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 		textField.addActionListener(new AbstractAction(){
             public void actionPerformed(ActionEvent e){
-                // if(this.labelTextTrans == "");
-                System.out.println(labelTextTrans);
-                // System.exit(0);
+                if(wordModel.trans.equals(textField.getText())){
+                    System.exit(0);
+                }
             }
         });
         panel.setBackground(Color.BLACK);
@@ -81,4 +64,22 @@ public class TestProgram {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 	}
+}
+
+class WordsModel {
+    public String word;
+    public String trans;
+    public WordsModel(){
+        try{
+            String url = "jdbc:sqlite:../db/words.db";
+            Connection conn = DriverManager.getConnection(url);
+            String sql = "SELECT * FROM words ORDER BY RANDOM() LIMIT 1";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            word = rs.getString("word");
+            trans = rs.getString("trans");
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
 }
