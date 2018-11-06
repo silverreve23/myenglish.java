@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class TestProgram {
+public class MyEnglish{
 	public static void main(String args[]){
 		JPanel panel = new JPanel();
 		JButton button = new JButton();
@@ -25,32 +25,34 @@ public class TestProgram {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Integer xSize = (int)toolkit.getScreenSize().getWidth();
 		Integer ySize = (int)toolkit.getScreenSize().getHeight();
+		Integer maxAttempt = 2;
 		String imageIconPath = "../img/icon.jpg";
-		String imageBodyPath = "../img/sbk.png";
+		String imageBodyPath = "../img/background.png";
+		String windowTitle = "MyEnglish";
 		String fontName = "SansSerif";
 		Font fontTextField = new Font(fontName, Font.BOLD, 29);
 		Image ImageIcon = toolkit.getImage(imageIconPath);
 		Image ImageBody = toolkit.getImage(imageBodyPath);
 		JLabel labelIcon = new JLabel(new ImageIcon(ImageBody));
 		JLabel labelText = new JLabel();
-        WordsModel wordModel = new WordsModel();
+    	WordsModel wordModel = new WordsModel();
 
 		labelIcon.setPreferredSize(ImageSize);
-        labelText.setText(wordModel.word + ":");
-        labelText.setForeground(Color.WHITE);
-        labelText.setFont(fontTextField);
-        labelText.setPreferredSize(labelTextSize);
+	    labelText.setText(wordModel.word + ":");
+	    labelText.setForeground(Color.WHITE);
+	    labelText.setFont(fontTextField);
+	    labelText.setPreferredSize(labelTextSize);
 		textField.setFont(fontTextField);
 		textField.setBackground(Color.BLACK);
 		textField.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 		textField.addActionListener(new AbstractAction(){
-            private Integer attempt = 0;
-            public void actionPerformed(ActionEvent e){
-                attempt = wordModel.checkTranslate(textField.getText());
-                if(attempt > 4) labelText.setText(wordModel.trans);
-            }
-        });
-        panel.setBackground(Color.BLACK);
+	        private Integer attempt = 0;
+	        public void actionPerformed(ActionEvent e){
+	            attempt = wordModel.checkTranslate(textField.getText());
+	            if(attempt > maxAttempt) labelText.setText(wordModel.trans);
+	        }
+	    });
+    	panel.setBackground(Color.BLACK);
 		panel.add(labelText);
 		panel.add(textField);
 		panel.add(labelIcon);
@@ -60,6 +62,7 @@ public class TestProgram {
 		window.setAlwaysOnTop(true);
 		window.setUndecorated(true);
 		window.setIconImage(ImageIcon);
+		window.setTitle(windowTitle);
 		window.setSize(xSize / 2, ySize / 2);
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
@@ -85,9 +88,8 @@ class WordsModel {
     }
 
     public int checkTranslate(String translate){
-        if(trans.equals(translate)){
+        if(trans.equals(translate))
             System.exit(0);
-        }
         return ++attempt;
     }
 }

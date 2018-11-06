@@ -1,6 +1,6 @@
 cd /opt/myenglish.java/bin
-javac TestProgram.java
+javac MyEnglish.java
 while true; do
-    java -classpath ".:../drivers/sqlite-jdbc-3.23.1.jar" TestProgram
+    java -classpath ".:../drivers/sqlite-jdbc-3.23.1.jar" MyEnglish
     sleep 600
 done
