@@ -49,6 +49,7 @@ public class MyEnglish{
 	        private Integer attempt = 0;
 	        public void actionPerformed(ActionEvent e){
 	            attempt = wordModel.checkTranslate(textField.getText());
+                textField.setText(null);
 	            if(attempt > maxAttempt) labelText.setText(wordModel.trans);
 	        }
 	    });
