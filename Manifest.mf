@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Created-By: SBKInfo
-Class-Path: ./drivers/sqlite-jdbc-3.23.1.jar
+Class-Path: /usr/lib/myenglish/sqlite-jdbc-3.23.1.jar
 Main-Class: MyEnglish
 

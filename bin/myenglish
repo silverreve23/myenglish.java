@@ -1,4 +1,4 @@
-cd /opt/myenglish/bin
+cd /opt/myenglish
 while true; do
     setxkbmap ua
     java -jar MyEnglish.jar

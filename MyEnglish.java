@@ -77,7 +77,7 @@ class WordsModel {
 	private Statement stmt;
     public WordsModel(){
         try{
-            String url = "jdbc:sqlite:./db/words.db";
+            String url = "jdbc:sqlite:db/words.db";
             Connection conn = DriverManager.getConnection(url);
             String sqlSelectWord = "SELECT * FROM words ORDER BY status DESC LIMIT 1";
             stmt = conn.createStatement();
