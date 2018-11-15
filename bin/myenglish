@@ -1,8 +1,7 @@
-cd /opt/myenglish.java/bin
-javac MyEnglish.java
+cd /opt/myenglish/bin
 while true; do
     setxkbmap ua
-    java -classpath ".:../drivers/sqlite-jdbc-3.23.1.jar" MyEnglish
+    java -jar MyEnglish.jar
     setxkbmap us
     sleep 1200
 done
