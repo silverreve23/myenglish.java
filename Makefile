@@ -10,7 +10,6 @@ default:
 	tar -xvf ./myenglish.tar.gz -C ./install
 	@echo 'Install app myenglish!'
 	cp -r ./install/bin /opt/myenglish
-	cp -r ./install/db /opt/myenglish
 	cp ./install/myenglish.jar /opt/myenglish
 	cp -r ./install/drivers/* /usr/lib/myenglish
 	-cp ./install/desktop/myenglish.desktop ~/.config/autostart/custom-command-myenglish.desktop
