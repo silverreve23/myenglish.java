@@ -9,6 +9,10 @@ import java.util.*;
 import java.io.*;
 import java.net.URL;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -74,30 +78,34 @@ class WordsModel {
     public String word;
     public String trans;
     public Integer attempt = 0;
-	private Statement stmt;
+    public String response = "";
     public WordsModel(){
-        try{
-            String url = "jdbc:sqlite::resource:http://35.182.114.21/myenglish/words.db";
-            Connection conn = DriverManager.getConnection(url);
-            String sqlSelectWord = "SELECT * FROM words ORDER BY status DESC LIMIT 1";
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sqlSelectWord);
-            word = rs.getString("word");
-            trans = rs.getString("trans");
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
+    	try{
+    		URL url = new URL("http://myenglish.io/api/get-word/silverreve23@gmail.com");
+    		BufferedReader reader = new BufferedReader(
+    			new InputStreamReader(url.openStream(), "UTF-8")
+    		);
+    	    for(String line; (line = reader.readLine()) != null;){
+    	    	response += line;
+    	    }
+    	    JSONParser parser = new JSONParser();
+    	    JSONObject json = (JSONObject) parser.parse(response);
+    	    word = (String) json.get("word");
+    	    trans = (String) json.get("trans");
+    	}catch(Exception e){
+    		System.out.println(e.getMessage());
+    	}
     }
 
     public int checkTranslate(JTextField translate){
 		try{
 			if(trans.equals(translate.getText())){
-				String sqlUpdateStatus = "UPDATE words SET status=status-1 WHERE word='" + word + "'";
-				stmt.executeUpdate(sqlUpdateStatus);
+				URL url = new URL("http://myenglish.io/api/update-status/success/"+word+"/silverreve23@gmail.com");
+		    	url.openStream();
 				System.exit(0);
 			}
-			String sqlUpdateStatus = "UPDATE words SET status=status+1 WHERE word='" + word + "'";
-			stmt.executeUpdate(sqlUpdateStatus);
+			URL url = new URL("http://myenglish.io/api/update-status/fails/"+word+"/silverreve23@gmail.com");
+	    	url.openStream();
 		}catch(Exception e){
             System.out.println(e.getMessage());
 			System.exit(0);
