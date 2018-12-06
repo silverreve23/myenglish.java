@@ -1,0 +1,8 @@
+echo "compiling java file..."
+javac MyEnglish.java
+echo "compiling successfully."
+echo "create jar package..."
+jar -cvfm myenglish.jar Manifest.mf *.class img/ org/
+echo "jar package created."
+echo "create install archive..."
+tar -cvf myenglish.tar.gz bin desktop drivers myenglish.jar

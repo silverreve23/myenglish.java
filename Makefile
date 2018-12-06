@@ -7,6 +7,11 @@ default:
 	-mkdir -m 755 ./install
 	-mkdir -m 755 /opt/myenglish 
 	-mkdir -m 755 /usr/lib/myenglish
+	-mkdir -m 755 /opt/myenglish/config
+	-touch /opt/myenglish/config/config.ini
+	-chmod 755 /opt/myenglish/config/config.ini
+	-read -p "Enter your email*: " username; \
+	echo "user=$${username}" > /opt/myenglish/config/config.ini;
 	tar -xvf ./myenglish.tar.gz -C ./install
 	@echo 'Install app myenglish!'
 	cp -r ./install/bin /opt/myenglish

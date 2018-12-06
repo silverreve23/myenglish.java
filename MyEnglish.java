@@ -79,9 +79,14 @@ class WordsModel {
     public String trans;
     public Integer attempt = 0;
     public String response = "";
+    private String host = "http://35.182.114.21";
+    private String user = "";
     public WordsModel(){
     	try{
-    		URL url = new URL("http://myenglish.io/api/get-word/silverreve23@gmail.com");
+    		Properties props = new Properties();
+    		props.load(new FileInputStream("./config/config.ini"));
+    		user = props.getProperty("user");
+    		URL url = new URL(host+"/api/get-word/"+user);
     		BufferedReader reader = new BufferedReader(
     			new InputStreamReader(url.openStream(), "UTF-8")
     		);
@@ -100,11 +105,11 @@ class WordsModel {
     public int checkTranslate(JTextField translate){
 		try{
 			if(trans.equals(translate.getText())){
-				URL url = new URL("http://myenglish.io/api/update-status/success/"+word+"/silverreve23@gmail.com");
+				URL url = new URL(host+"/api/update-status/success/"+word+"/"+user);
 		    	url.openStream();
 				System.exit(0);
 			}
-			URL url = new URL("http://myenglish.io/api/update-status/fails/"+word+"/silverreve23@gmail.com");
+			URL url = new URL(host+"/api/update-status/fails/"+word+"/"+user);
 	    	url.openStream();
 		}catch(Exception e){
             System.out.println(e.getMessage());
