@@ -53,6 +53,7 @@ class ModalApp {
 		labelIcon = new JLabel(new ImageIcon(ImageBody));
 		labelText = new JLabel();
 		transHandler = new TranslateHandler(
+			window,
 			wordModel,
 			labelText,
 			textField

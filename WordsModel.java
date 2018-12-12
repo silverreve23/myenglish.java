@@ -18,23 +18,29 @@ class WordsModel {
     public String word;
     public String trans;
     public Integer attempt;
-    public String response;
+    public Integer period;
+    private String responseWord;
+    private String responsePeriod;
     private String host;
     private String user;
     private String logfile;
-    private URL url;
+    private URL urlWord;
+    private URL urlPeriod;
     
     public WordsModel(){
     	try{
 			user = "";
-			response = "";
+			responseWord = "";
+			responsePeriod = "";
 			attempt = 0;
 			host = "http://35.182.114.21";
 			logfile = "/var/log/myenglish.log";
     		Properties props = new Properties();
     		props.load(new FileInputStream("./config/config.ini"));
     		user = props.getProperty("user");
-    		url = new URL(host+"/api/get-word/"+user);
+    		urlWord = new URL(host+"/api/get-word/"+user);
+    		urlPeriod = new URL(host+"/api/get-period/"+user);
+    		period = getPeriod();
     	}catch(Exception e){
 			try {
 				BufferedWriter writer = new BufferedWriter(new FileWriter(logfile, true));
@@ -51,13 +57,13 @@ class WordsModel {
     public void update(){
 		try{
 			BufferedReader reader = new BufferedReader(
-    			new InputStreamReader(url.openStream(), "UTF-8")
+    			new InputStreamReader(urlWord.openStream(), "UTF-8")
     		);
     	    for(String line; (line = reader.readLine()) != null;){
-    	    	response += line;
+    	    	responseWord += line;
     	    }
     	    JSONParser parser = new JSONParser();
-    	    JSONObject json = (JSONObject) parser.parse(response);
+    	    JSONObject json = (JSONObject) parser.parse(responseWord);
     	    word = (String) json.get("word");
     	    trans = (String) json.get("trans");
 		}catch(Exception e){
@@ -73,12 +79,12 @@ class WordsModel {
     	}
 	}
 
-    public int checkTranslate(JTextField translate){
+    public int checkTranslate(JTextField translate, JDialog window){
 		try{
 			if(trans.equals(translate.getText())){
 				URL url = new URL(host+"/api/update-status/success/"+word+"/"+user);
 		    	url.openStream();
-				System.exit(0);
+				window.setVisible(false);
 			}
 			URL url = new URL(host+"/api/update-status/fails/"+word+"/"+user);
 	    	url.openStream();
@@ -90,4 +96,26 @@ class WordsModel {
 		translate.setText(null);
         return ++attempt;
     }
+    
+    private int getPeriod(){
+		try{
+			BufferedReader reader = new BufferedReader(
+    			new InputStreamReader(urlPeriod.openStream(), "UTF-8")
+    		);
+    	    for(String line; (line = reader.readLine()) != null;){
+    	    	responsePeriod += line;
+    	    }
+		}catch(Exception e){
+			try {
+				BufferedWriter writer = new BufferedWriter(new FileWriter(logfile, true));
+				writer.append("\n");
+				writer.append(e.getMessage());
+				writer.close();
+			}catch(IOException ef){
+				System.out.println(ef.getMessage());
+			}
+    		System.out.println(e.getMessage());
+    	}
+    	return Integer.valueOf(responsePeriod) * 60000;
+	}
 }
