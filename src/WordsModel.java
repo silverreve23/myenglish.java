@@ -26,6 +26,10 @@ class WordsModel {
     private String logfile;
     private URL urlWord;
     private URL urlPeriod;
+    private JSONParser parser;
+    private BufferedReader reader;
+    private InputStream stream;
+    private JSONObject json;
     
     public WordsModel(){
     	try{
@@ -41,6 +45,7 @@ class WordsModel {
     		urlWord = new URL(host+"/api/get-word/"+user);
     		urlPeriod = new URL(host+"/api/get-period/"+user);
     		period = getPeriod();
+    		parser = new JSONParser();
     	}catch(Exception e){
 			try {
 				BufferedWriter writer = new BufferedWriter(new FileWriter(logfile, true));
@@ -48,22 +53,26 @@ class WordsModel {
 				writer.append(e.getMessage());
 				writer.close();
 			}catch(IOException ef){
+				System.out.println("exception in WordsModel constructor(logging)");
 				System.out.println(ef.getMessage());
 			}
+    		System.out.println("exception in WordsModel constructor");
     		System.out.println(e.getMessage());
     	}
     }
     
     public void update(){
 		try{
-			BufferedReader reader = new BufferedReader(
+			responseWord = "";
+			stream = urlWord.openStream();
+			reader = new BufferedReader(
     			new InputStreamReader(urlWord.openStream(), "UTF-8")
     		);
+    		stream.close();
     	    for(String line; (line = reader.readLine()) != null;){
     	    	responseWord += line;
     	    }
-    	    JSONParser parser = new JSONParser();
-    	    JSONObject json = (JSONObject) parser.parse(responseWord);
+    	    json = (JSONObject) parser.parse(responseWord);
     	    word = (String) json.get("word");
     	    trans = (String) json.get("trans");
 		}catch(Exception e){
@@ -73,8 +82,10 @@ class WordsModel {
 				writer.append(e.getMessage());
 				writer.close();
 			}catch(IOException ef){
+				System.out.println("exception in WordsModel update method(logging)");
 				System.out.println(ef.getMessage());
 			}
+			System.out.println("exception in WordsModel update method");
     		System.out.println(e.getMessage());
     	}
 	}
@@ -83,12 +94,15 @@ class WordsModel {
 		try{
 			if(trans.equals(translate.getText())){
 				URL url = new URL(host+"/api/update-status/success/"+word+"/"+user);
-		    	url.openStream();
+		    	stream = url.openStream();
+		    	stream.close();
 				window.setVisible(false);
 			}
 			URL url = new URL(host+"/api/update-status/fails/"+word+"/"+user);
-	    	url.openStream();
+	    	stream = url.openStream();
+		    stream.close();
 		}catch(Exception e){
+			System.out.println("exception in WordsModel checkTranslate method");
             System.out.println(e.getMessage());
 			System.exit(0);
         }
@@ -112,8 +126,10 @@ class WordsModel {
 				writer.append(e.getMessage());
 				writer.close();
 			}catch(IOException ef){
+				System.out.println("exception in WordsModel getPeriod method(logging)");
 				System.out.println(ef.getMessage());
 			}
+			System.out.println("exception in WordsModel getPeriod method");
     		System.out.println(e.getMessage());
     	}
     	return Integer.valueOf(responsePeriod) * 60000;

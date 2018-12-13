@@ -9,7 +9,7 @@ public class MyEnglish{
 		modal.init();
 		modal.run();
 		task.init(modal);
-		timer.schedule(task, 0, model.period);
+		timer.schedule(task, 0, 5000);
 	}
 }
 
