@@ -1,7 +1,2 @@
 cd /opt/myenglish
-while true; do
-    setxkbmap ua
-    java -jar myenglish.jar
-    setxkbmap us
-    sleep 1200
-done
+java -jar myenglish.jar

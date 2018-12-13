@@ -24,3 +24,6 @@ default:
 	apt-get install default-jdk -y
 	apt autoremove -y
 	rm -r ./install
+	@echo "\n"
+	@echo "Thanks! Your web cabinet http://myenglish.tk"
+	@echo "\n"
