@@ -12,7 +12,8 @@
 
 Run this command in terminal:
 
-    wget https://github.com/silverreve23/myenglish.java/blob/master/myenglish.tar.gz
+    sudo wget https://github.com/silverreve23/myenglish.java/raw/master/myenglish.tar.gz
+    sudo tar -xvf myenglish.tar.gz
     sudo make
 
 and restart your computer or make logout and login in your system. During installation, 
