@@ -24,19 +24,20 @@ class WordsModel {
     private String host;
     private String user;
     private String logfile;
+    private URL url;
     private URL urlWord;
     private URL urlPeriod;
     private JSONParser parser;
     private BufferedReader reader;
     private InputStream stream;
     private JSONObject json;
+    private BufferedWriter writer;
     
     public WordsModel(){
     	try{
 			user = "";
 			responseWord = "";
 			responsePeriod = "";
-			attempt = 0;
 			host = "http://35.182.114.21";
 			logfile = "/var/log/myenglish.log";
     		Properties props = new Properties();
@@ -48,7 +49,7 @@ class WordsModel {
     		parser = new JSONParser();
     	}catch(Exception e){
 			try {
-				BufferedWriter writer = new BufferedWriter(new FileWriter(logfile, true));
+				writer = new BufferedWriter(new FileWriter(logfile, true));
 				writer.append("\n");
 				writer.append(e.getMessage());
 				writer.close();
@@ -63,6 +64,7 @@ class WordsModel {
     
     public void update(){
 		try{
+			attempt = 0;
 			responseWord = "";
 			stream = urlWord.openStream();
 			reader = new BufferedReader(
@@ -77,7 +79,7 @@ class WordsModel {
     	    trans = (String) json.get("trans");
 		}catch(Exception e){
 			try {
-				BufferedWriter writer = new BufferedWriter(new FileWriter(logfile, true));
+				writer = new BufferedWriter(new FileWriter(logfile, true));
 				writer.append("\n");
 				writer.append(e.getMessage());
 				writer.close();
@@ -93,27 +95,27 @@ class WordsModel {
     public int checkTranslate(JTextField translate, JDialog window){
 		try{
 			if(trans.equals(translate.getText())){
-				URL url = new URL(host+"/api/update-status/success/"+word+"/"+user);
+				url = new URL(host+"/api/update-status/success/"+word+"/"+user);
 		    	stream = url.openStream();
 		    	stream.close();
 				window.setVisible(false);
+			}else{
+				url = new URL(host+"/api/update-status/fails/"+word+"/"+user);
+				stream = url.openStream();
+				stream.close();
 			}
-			URL url = new URL(host+"/api/update-status/fails/"+word+"/"+user);
-	    	stream = url.openStream();
-		    stream.close();
 		}catch(Exception e){
 			System.out.println("exception in WordsModel checkTranslate method");
             System.out.println(e.getMessage());
 			System.exit(0);
         }
-
 		translate.setText(null);
         return ++attempt;
     }
     
     private int getPeriod(){
 		try{
-			BufferedReader reader = new BufferedReader(
+			reader = new BufferedReader(
     			new InputStreamReader(urlPeriod.openStream(), "UTF-8")
     		);
     	    for(String line; (line = reader.readLine()) != null;){
@@ -121,7 +123,7 @@ class WordsModel {
     	    }
 		}catch(Exception e){
 			try {
-				BufferedWriter writer = new BufferedWriter(new FileWriter(logfile, true));
+				writer = new BufferedWriter(new FileWriter(logfile, true));
 				writer.append("\n");
 				writer.append(e.getMessage());
 				writer.close();
