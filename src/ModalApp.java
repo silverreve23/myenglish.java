@@ -25,8 +25,10 @@ class ModalApp {
 	private Image ImageBody;
 	private JLabel labelIcon;
 	private JLabel labelText;
+	private JLabel labelHint;
 	private Integer maxAttempt;
 	private TranslateHandler transHandler;
+	private WordHandler wordHandler;
 	private WordsModel wordModel;
 	
 	public ModalApp(WordsModel wModel){
@@ -43,7 +45,7 @@ class ModalApp {
 		toolkit = Toolkit.getDefaultToolkit();
 		xScreenSize = (int)toolkit.getScreenSize().getWidth();
 		yScreenSize = (int)toolkit.getScreenSize().getHeight();
-		imageIconPath = "img/icon.jpg";
+		imageIconPath = "img/icon.png";
 		imageBodyPath = "img/background.png";
 		windowTitle = "MyEnglish";
 		fontName = "SansSerif";
@@ -52,6 +54,8 @@ class ModalApp {
 		ImageBody = toolkit.getImage(MyEnglish.class.getResource(imageBodyPath));
 		labelIcon = new JLabel(new ImageIcon(ImageBody));
 		labelText = new JLabel();
+		labelHint = new JLabel();
+		wordHandler = new WordHandler();
 		transHandler = new TranslateHandler(
 			window,
 			wordModel,
@@ -66,12 +70,15 @@ class ModalApp {
 	    labelText.setForeground(Color.WHITE);
 	    labelText.setFont(fontTextField);
 	    labelText.setPreferredSize(labelTextSize);
+	    labelText.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+	    labelText.addMouseListener(wordHandler);
 		textField.setFont(fontTextField);
 		textField.setBackground(Color.BLACK);
 		textField.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 		textField.addActionListener(transHandler);
     	panel.setBackground(Color.BLACK);
 		panel.add(labelText);
+		panel.add(labelHint);
 		panel.add(textField);
 		panel.add(labelIcon);
 		window.add(panel);
@@ -88,6 +95,7 @@ class ModalApp {
 	public void render(){
 		wordModel.update();
 		labelText.setText(wordModel.word + ":");
+		labelHint.setText(wordModel.hint);
 	}
 	
 	public void show(){

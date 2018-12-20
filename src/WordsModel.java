@@ -17,6 +17,7 @@ import java.io.*;
 class WordsModel {
     public String word;
     public String trans;
+    public String hint;
     public Integer attempt;
     public Integer period;
     public Boolean autoChangeKeyLang;
@@ -83,6 +84,7 @@ class WordsModel {
     	    json = (JSONObject) parser.parse(responseWord);
     	    word = (String) json.get("word");
     	    trans = (String) json.get("trans");
+    	    hint = (String) json.get("hint");
     	    if(autoChangeKeyLang) Runtime.getRuntime().exec("setxkbmap ua");
 		}catch(Exception e){
 			try {
