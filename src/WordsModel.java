@@ -19,7 +19,9 @@ class WordsModel {
     public String trans;
     public Integer attempt;
     public Integer period;
+    public Boolean autoChangeKeyLang;
     private String responseWord;
+    private String responseAutoChangeKeyLang;
     private String responsePeriod;
     private String host;
     private String user;
@@ -27,6 +29,7 @@ class WordsModel {
     private URL url;
     private URL urlWord;
     private URL urlPeriod;
+    private URL urlAutoChangeKeyLang;
     private JSONParser parser;
     private BufferedReader reader;
     private InputStream stream;
@@ -38,6 +41,7 @@ class WordsModel {
 			user = "";
 			responseWord = "";
 			responsePeriod = "";
+			responseAutoChangeKeyLang = "";
 			host = "http://35.182.114.21";
 			logfile = "/var/log/myenglish.log";
     		Properties props = new Properties();
@@ -45,7 +49,9 @@ class WordsModel {
     		user = props.getProperty("user");
     		urlWord = new URL(host+"/api/get-word/"+user);
     		urlPeriod = new URL(host+"/api/get-period/"+user);
+    		urlAutoChangeKeyLang = new URL(host+"/api/get-autochangekeylang/"+user);
     		period = getPeriod();
+    		autoChangeKeyLang = getAutoChangeKeyLang();
     		parser = new JSONParser();
     	}catch(Exception e){
 			try {
@@ -77,6 +83,7 @@ class WordsModel {
     	    json = (JSONObject) parser.parse(responseWord);
     	    word = (String) json.get("word");
     	    trans = (String) json.get("trans");
+    	    if(autoChangeKeyLang) Runtime.getRuntime().exec("setxkbmap ua");
 		}catch(Exception e){
 			try {
 				writer = new BufferedWriter(new FileWriter(logfile, true));
@@ -99,6 +106,7 @@ class WordsModel {
 		    	stream = url.openStream();
 		    	stream.close();
 				window.setVisible(false);
+				if(autoChangeKeyLang) Runtime.getRuntime().exec("setxkbmap us");
 			}else{
 				url = new URL(host+"/api/update-status/fails/"+word+"/"+user);
 				stream = url.openStream();
@@ -135,5 +143,29 @@ class WordsModel {
     		System.out.println(e.getMessage());
     	}
     	return Integer.valueOf(responsePeriod) * 60000;
+	}
+    
+    private boolean getAutoChangeKeyLang(){
+		try{
+			reader = new BufferedReader(
+    			new InputStreamReader(urlAutoChangeKeyLang.openStream(), "UTF-8")
+    		);
+    	    for(String line; (line = reader.readLine()) != null;){
+    	    	responseAutoChangeKeyLang += line;
+    	    }
+		}catch(Exception e){
+			try {
+				writer = new BufferedWriter(new FileWriter(logfile, true));
+				writer.append("\n");
+				writer.append(e.getMessage());
+				writer.close();
+			}catch(IOException ef){
+				System.out.println("exception in WordsModel getAutoChangeKeyLang method(logging)");
+				System.out.println(ef.getMessage());
+			}
+			System.out.println("exception in WordsModel getAutoChangeKeyLang method");
+    		System.out.println(e.getMessage());
+    	}
+    	return Integer.valueOf(responseAutoChangeKeyLang) == 1;
 	}
 }

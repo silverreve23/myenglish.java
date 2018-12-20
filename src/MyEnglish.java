@@ -5,7 +5,8 @@ public class MyEnglish{
 		Timer timer = new Timer();
 		PeriodRun task = new PeriodRun();
 		WordsModel model = new WordsModel();
-		ModalApp modal = new ModalApp(model);
+		ModalApp modal = new ModalApp(model); 
+
 		modal.init();
 		modal.run();
 		task.init(modal);
