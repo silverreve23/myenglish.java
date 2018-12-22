@@ -75,12 +75,12 @@ class WordsModel {
 			responseWord = "";
 			stream = urlWord.openStream();
 			reader = new BufferedReader(
-    			new InputStreamReader(urlWord.openStream(), "UTF-8")
+    			new InputStreamReader(stream, "UTF-8")
     		);
-    		stream.close();
     	    for(String line; (line = reader.readLine()) != null;){
     	    	responseWord += line;
     	    }
+    	    stream.close();
     	    json = (JSONObject) parser.parse(responseWord);
     	    word = (String) json.get("word");
     	    trans = (String) json.get("trans");
@@ -99,6 +99,7 @@ class WordsModel {
 			System.out.println("exception in WordsModel update method");
     		System.out.println(e.getMessage());
     	}
+    	System.out.println("update method runed");
 	}
 
     public int checkTranslate(JTextField translate, JDialog window){
@@ -125,12 +126,14 @@ class WordsModel {
     
     private int getPeriod(){
 		try{
+			stream = urlPeriod.openStream();
 			reader = new BufferedReader(
-    			new InputStreamReader(urlPeriod.openStream(), "UTF-8")
+    			new InputStreamReader(stream, "UTF-8")
     		);
     	    for(String line; (line = reader.readLine()) != null;){
     	    	responsePeriod += line;
     	    }
+    	    stream.close();
 		}catch(Exception e){
 			try {
 				writer = new BufferedWriter(new FileWriter(logfile, true));
@@ -144,17 +147,20 @@ class WordsModel {
 			System.out.println("exception in WordsModel getPeriod method");
     		System.out.println(e.getMessage());
     	}
+    	System.out.println("getPeriod: " + responsePeriod);
     	return Integer.valueOf(responsePeriod) * 60000;
 	}
     
     private boolean getAutoChangeKeyLang(){
 		try{
+			stream = urlAutoChangeKeyLang.openStream();
 			reader = new BufferedReader(
-    			new InputStreamReader(urlAutoChangeKeyLang.openStream(), "UTF-8")
+    			new InputStreamReader(stream, "UTF-8")
     		);
     	    for(String line; (line = reader.readLine()) != null;){
     	    	responseAutoChangeKeyLang += line;
     	    }
+    	    stream.close();
 		}catch(Exception e){
 			try {
 				writer = new BufferedWriter(new FileWriter(logfile, true));
@@ -168,6 +174,7 @@ class WordsModel {
 			System.out.println("exception in WordsModel getAutoChangeKeyLang method");
     		System.out.println(e.getMessage());
     	}
+    	System.out.println("getAutoChangeKeyLang: " + responseAutoChangeKeyLang);
     	return Integer.valueOf(responseAutoChangeKeyLang) == 1;
 	}
 }
