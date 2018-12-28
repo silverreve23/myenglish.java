@@ -36,6 +36,7 @@ class WordsModel {
     private InputStream stream;
     private JSONObject json;
     private BufferedWriter writer;
+    private Logger logger; 
     
     public WordsModel(){
     	try{
@@ -54,18 +55,12 @@ class WordsModel {
     		period = getPeriod();
     		autoChangeKeyLang = getAutoChangeKeyLang();
     		parser = new JSONParser();
+    		logger = new Logger(logfile);
     	}catch(Exception e){
-			try {
-				writer = new BufferedWriter(new FileWriter(logfile, true));
-				writer.append("\n");
-				writer.append(e.getMessage());
-				writer.close();
-			}catch(IOException ef){
-				System.out.println("exception in WordsModel constructor(logging)");
-				System.out.println(ef.getMessage());
-			}
-    		System.out.println("exception in WordsModel constructor");
-    		System.out.println(e.getMessage());
+			logger.log(
+				"exception in WordsModel constructor(logging)",
+				e.getMessage()
+			);
     	}
     }
     
@@ -87,17 +82,10 @@ class WordsModel {
     	    hint = (String) json.get("hint");
     	    if(autoChangeKeyLang) Runtime.getRuntime().exec("setxkbmap ua");
 		}catch(Exception e){
-			try {
-				writer = new BufferedWriter(new FileWriter(logfile, true));
-				writer.append("\n");
-				writer.append(e.getMessage());
-				writer.close();
-			}catch(IOException ef){
-				System.out.println("exception in WordsModel update method(logging)");
-				System.out.println(ef.getMessage());
-			}
-			System.out.println("exception in WordsModel update method");
-    		System.out.println(e.getMessage());
+			logger.log(
+				"exception in WordsModel update method(logging)",
+				e.getMessage()
+			);
     	}
     	System.out.println("update method runed");
 	}
@@ -116,8 +104,10 @@ class WordsModel {
 				stream.close();
 			}
 		}catch(Exception e){
-			System.out.println("exception in WordsModel checkTranslate method");
-            System.out.println(e.getMessage());
+			logger.log(
+				"exception in WordsModel checkTranslate method",
+				e.getMessage()
+			);
 			System.exit(0);
         }
 		translate.setText(null);
@@ -135,17 +125,10 @@ class WordsModel {
     	    }
     	    stream.close();
 		}catch(Exception e){
-			try {
-				writer = new BufferedWriter(new FileWriter(logfile, true));
-				writer.append("\n");
-				writer.append(e.getMessage());
-				writer.close();
-			}catch(IOException ef){
-				System.out.println("exception in WordsModel getPeriod method(logging)");
-				System.out.println(ef.getMessage());
-			}
-			System.out.println("exception in WordsModel getPeriod method");
-    		System.out.println(e.getMessage());
+			logger.log(
+				"exception in WordsModel getPeriod method(logging)",
+				e.getMessage()
+			);
     	}
     	System.out.println("getPeriod: " + responsePeriod);
     	return Integer.valueOf(responsePeriod) * 60000;
@@ -162,17 +145,10 @@ class WordsModel {
     	    }
     	    stream.close();
 		}catch(Exception e){
-			try {
-				writer = new BufferedWriter(new FileWriter(logfile, true));
-				writer.append("\n");
-				writer.append(e.getMessage());
-				writer.close();
-			}catch(IOException ef){
-				System.out.println("exception in WordsModel getAutoChangeKeyLang method(logging)");
-				System.out.println(ef.getMessage());
-			}
-			System.out.println("exception in WordsModel getAutoChangeKeyLang method");
-    		System.out.println(e.getMessage());
+			logger.log(
+				"exception in WordsModel getAutoChangeKeyLang method(logging)",
+				e.getMessage()
+			);
     	}
     	System.out.println("getAutoChangeKeyLang: " + responseAutoChangeKeyLang);
     	return Integer.valueOf(responseAutoChangeKeyLang) == 1;
