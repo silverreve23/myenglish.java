@@ -18,13 +18,18 @@ Run this command in terminal:
 
     sudo wget https://github.com/silverreve23/myenglish.java/raw/master/myenglish.tar.gz
     sudo tar -xvf myenglish.tar.gz
-    sudo make
+    sudo make install
 
 and restart your computer or make logout and login in your system. During installation, 
 you will be prompted to enter the email that will be attached to your account in the future!
 
+## How to uninstall
 
+Run this command in terminal:
 
+    sudo make uninstall
+
+This command will delete all myenglish data! 
 
 
 
