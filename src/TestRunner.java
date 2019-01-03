@@ -1,10 +1,9 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class TestSimple {
-
+public class TestRunner {
     @Test
-    public void testConcatenate(){
+    public void testAssertTrue(){
         assertTrue(true);
     }
 }

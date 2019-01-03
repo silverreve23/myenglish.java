@@ -1,4 +1,5 @@
-language: java
+language: 
+    - java
 addons:
   apt:
     packages:
@@ -6,5 +7,6 @@ addons:
 before_install:
     - cd ./src
 script:
-  - javac -cp /usr/share/java/junit4.jar TestSimple.java && java -cp .:/usr/share/java/junit4.jar:. org.junit.runner.JUnitCore TestSimple
+    - javac -cp /usr/share/java/junit4.jar TestRunner.java
+    - java -cp .:/usr/share/java/junit4.jar:. org.junit.runner.JUnitCore TestRunner
 
