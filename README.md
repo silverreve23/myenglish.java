@@ -7,6 +7,8 @@
 [![Build Status](https://travis-ci.com/silverreve23/myenglish.java.svg?branch=master)](https://travis-ci.com/silverreve23/myenglish.java)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Website myenglish.tk](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](http://myenglish.tk/)
+[![Open Source Love png2](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://github.com/silverreve23/myenglish.java/)
+[![saythanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)](https://github.com/silverreve23/myenglish.java/)
 
 <p align="center">     
     MyEnglish app to study English at work, at home and anywhere! 
