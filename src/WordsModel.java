@@ -18,18 +18,23 @@ class WordsModel {
     public String word;
     public String trans;
     public String hint;
+    public String translang;
     public Integer attempt;
     public Integer period;
     public Boolean autoChangeKeyLang;
     private String responseWord;
     private String responseAutoChangeKeyLang;
     private String responsePeriod;
+    private String responseTransLang;
     private String host;
-    private String user;
+    private String userEmail;
+    private String wordLang;
+    private String transLang;
     private String logfile;
     private URL url;
     private URL urlWord;
     private URL urlPeriod;
+    private URL urlTransLang;
     private URL urlAutoChangeKeyLang;
     private JSONParser parser;
     private BufferedReader reader;
@@ -40,19 +45,27 @@ class WordsModel {
     
     public WordsModel(){
     	try{
-			user = "";
+			userEmail = "";
+			wordLang = "";
+			transLang = "";
 			responseWord = "";
 			responsePeriod = "";
+			responseTransLang = "";
 			responseAutoChangeKeyLang = "";
 			host = "http://35.182.114.21";
+			host = "http://myenglish.io";
 			logfile = "/var/log/myenglish.log";
     		Properties props = new Properties();
     		props.load(new FileInputStream("./config/config.ini"));
-    		user = props.getProperty("user");
-    		urlWord = new URL(host+"/api/get-word/"+user);
-    		urlPeriod = new URL(host+"/api/get-period/"+user);
-    		urlAutoChangeKeyLang = new URL(host+"/api/get-autochangekeylang/"+user);
+    		userEmail = props.getProperty("useremail");
+    		wordLang = props.getProperty("wordlang");
+    		transLang = props.getProperty("translang");
+    		urlWord = new URL(host+"/api/get-word/"+userEmail+"/"+wordLang+"/"+transLang);
+    		urlPeriod = new URL(host+"/api/get-period/"+userEmail);
+    		urlTransLang = new URL(host+"/api/get-translang/"+userEmail);
+    		urlAutoChangeKeyLang = new URL(host+"/api/get-autochangekeylang/"+userEmail);
     		period = getPeriod();
+    		translang = getTransLang();
     		autoChangeKeyLang = getAutoChangeKeyLang();
     		parser = new JSONParser();
     		logger = new Logger(logfile);
@@ -87,19 +100,20 @@ class WordsModel {
 				e.getMessage()
 			);
     	}
+    	System.out.println("Data get-word: " + responseWord);
     	System.out.println("update method runed");
 	}
 
     public int checkTranslate(JTextField translate, JDialog window){
 		try{
 			if(trans.equals(translate.getText())){
-				url = new URL(host+"/api/update-status/success/"+word+"/"+user);
+				url = new URL(host+"/api/update-status/success/"+word+"/"+userEmail);
 		    	stream = url.openStream();
 		    	stream.close();
 				window.setVisible(false);
 				if(autoChangeKeyLang) Runtime.getRuntime().exec("setxkbmap us");
 			}else{
-				url = new URL(host+"/api/update-status/fails/"+word+"/"+user);
+				url = new URL(host+"/api/update-status/fails/"+word+"/"+userEmail);
 				stream = url.openStream();
 				stream.close();
 			}
@@ -132,6 +146,26 @@ class WordsModel {
     	}
     	System.out.println("getPeriod: " + responsePeriod);
     	return Integer.valueOf(responsePeriod) * 60000;
+	}
+    
+    private String getTransLang(){
+		try{
+			stream = urlTransLang.openStream();
+			reader = new BufferedReader(
+    			new InputStreamReader(stream, "UTF-8")
+    		);
+    	    for(String line; (line = reader.readLine()) != null;){
+    	    	responseTransLang += line;
+    	    }
+    	    stream.close();
+		}catch(Exception e){
+			logger.log(
+				"exception in WordsModel getTransLang method(logging)",
+				e.getMessage()
+			);
+    	}
+    	System.out.println("getTransLang: " + responseTransLang);
+    	return responseTransLang;
 	}
     
     private boolean getAutoChangeKeyLang(){

@@ -26,6 +26,8 @@ class ModalApp {
 	private JLabel labelIcon;
 	private JLabel labelText;
 	private JLabel labelHint;
+	private JLabel labelLang;
+	private JLabel labelSong;
 	private Integer maxAttempt;
 	private TranslateHandler transHandler;
 	private WordHandler wordHandler;
@@ -38,13 +40,13 @@ class ModalApp {
 	public void init(){
 		panel = new JPanel();
 		button = new JButton();
-		textField = new JTextField(10);
-		labelTextSize = new Dimension(200, 100);
+		textField = new JTextField(25);
 		ImageSize = new Dimension(600, 350);
 		window = new JDialog(new Frame(), true);
 		toolkit = Toolkit.getDefaultToolkit();
 		xScreenSize = (int)toolkit.getScreenSize().getWidth();
 		yScreenSize = (int)toolkit.getScreenSize().getHeight();
+		labelTextSize = new Dimension((xScreenSize / 2) - 60, 50);
 		imageIconPath = "img/icon.png";
 		imageBodyPath = "img/background.png";
 		windowTitle = "MyEnglish";
@@ -55,6 +57,8 @@ class ModalApp {
 		labelIcon = new JLabel(new ImageIcon(ImageBody));
 		labelText = new JLabel();
 		labelHint = new JLabel();
+		labelLang = new JLabel();
+		labelSong = new JLabel();
 		wordHandler = new WordHandler();
 		transHandler = new TranslateHandler(
 			window,
@@ -70,8 +74,12 @@ class ModalApp {
 	    labelText.setForeground(Color.WHITE);
 	    labelText.setFont(fontTextField);
 	    labelText.setPreferredSize(labelTextSize);
-	    labelText.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-	    labelText.addMouseListener(wordHandler);
+	    labelLang.setForeground(new Color(179, 210, 54));
+	    labelHint.setForeground(new Color(252, 211, 43));
+	    labelSong.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+	    labelSong.setForeground(new Color(69, 159, 216));
+	    labelSong.setFont(fontTextField);
+	    labelSong.addMouseListener(wordHandler);
 		textField.setFont(fontTextField);
 		textField.setBackground(Color.BLACK);
 		textField.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
@@ -79,7 +87,9 @@ class ModalApp {
     	panel.setBackground(Color.BLACK);
 		panel.add(labelText);
 		panel.add(labelHint);
+		panel.add(labelLang);
 		panel.add(textField);
+		panel.add(labelSong);
 		panel.add(labelIcon);
 		window.add(panel);
 		window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -94,8 +104,10 @@ class ModalApp {
 	
 	public void render(){
 		wordModel.update();
-		labelText.setText(wordModel.word + ":");
-		labelHint.setText(wordModel.hint);
+		labelText.setText(" " + wordModel.word + "? - ");
+		labelHint.setText(" hint: " + wordModel.hint + " ");
+		labelLang.setText(" lang: " + wordModel.translang + " ");
+		labelSong.setText(" click play song! ");
 	}
 	
 	public void show(){

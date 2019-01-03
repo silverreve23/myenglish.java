@@ -1,8 +1,10 @@
 install: install_before remove preparing
 	@echo -e '\n\e[34mEnter your email*:\e[0m '
-	@read username; echo "user=$${username}" > /opt/myenglish/config/config.ini
-	@echo -e '\e[34mEnter your translate language [ua, ru], default ua:\e[0m '
-	@read userlang; if [ -z "$${userlang}" ]; then userlang='ua'; fi; echo "lang=$${userlang}" >> /opt/myenglish/config/config.ini
+	@read username; if [ -z "$${username}" ]; then echo 'Email is required!\n'; exit 1; fi; echo "useremail=$${username}" > /opt/myenglish/config/config.ini
+	@echo -e '\e[34mEnter your language for get word [ua, ru], default en:\e[0m '
+	@read wordlang; if [ -z "$${wordlang}" ]; then wordlang='en'; fi; echo "wordlang=$${wordlang}" >> /opt/myenglish/config/config.ini
+	@echo -e '\e[34mEnter your translate language [en, ru], default ua:\e[0m '
+	@read translang; if [ -z "$${translang}" ]; then translang='ua'; fi; echo "translang=$${translang}" >> /opt/myenglish/config/config.ini
 	tar -xvf ./myenglish.tar.gz -C ./install
 	@echo -e '\n\e[0;32mInstall app myenglish!\n\e[0m'
 	cp -r ./install/bin /opt/myenglish
@@ -15,6 +17,7 @@ install: install_before remove preparing
 	apt-get install default-jdk -y
 	-apt autoremove -y
 	rm -r ./install
+	#cd /opt/myenglish/bin && ./myenglish &
 	@echo -e '\n\e[0;32mThanks! Your web cabinet http://myenglish.tk\n\e[0m'
 
 uninstall: uninstall_before romove_before remove
