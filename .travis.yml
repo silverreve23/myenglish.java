@@ -1,1 +1,6 @@
 language: java
+before_install:
+    - cd ./src
+script:
+  - javac -cp /usr/share/java/junit4.jar TestSimple.java && java -cp .:/usr/share/java/junit4.jar:. org.junit.runner.JUnitCore TestSimple
+
