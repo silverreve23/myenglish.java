@@ -2,19 +2,16 @@ import java.util.*;
 import java.io.*;
 
 class Logger {
-	public String logFile;
-	private BufferedWriter writer;
-	public Logger(String lFile){
-		logFile = lFile;
-	}
-	public void log(String text, String data){
-		try {
-			writer = new BufferedWriter(new FileWriter(logFile, true));
-			writer.append("\n");
-			writer.append(data);
+	private static BufferedWriter writer;
+	public static void log(String data){
+		try{
+			writer = new BufferedWriter(new FileWriter(
+				"/var/log/myenglish.log", 
+				true
+			));
+			writer.append("\n" + data);
 			writer.close();
-		}catch(IOException e){
-			System.out.println(text);
+		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
 	}

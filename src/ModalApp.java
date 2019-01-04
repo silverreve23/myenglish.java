@@ -102,7 +102,8 @@ class ModalApp {
 		window.setLocationRelativeTo(null);
 	}
 	
-	public void render(){
+	public void render()
+	throws Exception{
 		wordModel.update();
 		labelText.setText(" " + wordModel.word + "? - ");
 		labelHint.setText(" hint: " + wordModel.hint + " ");
