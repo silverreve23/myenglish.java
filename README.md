@@ -10,7 +10,7 @@
 [![Open Source Love png2](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://github.com/silverreve23/myenglish.java/)
 [![saythanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)](https://github.com/silverreve23/myenglish.java/)
     
-###MyEnglish app to study English at work, at home and anywhere! 
+MyEnglish app to study English at work, at home and anywhere! 
 
 ## How to install
 
