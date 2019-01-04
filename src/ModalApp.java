@@ -46,7 +46,7 @@ class ModalApp {
 		toolkit = Toolkit.getDefaultToolkit();
 		xScreenSize = (int)toolkit.getScreenSize().getWidth();
 		yScreenSize = (int)toolkit.getScreenSize().getHeight();
-		labelTextSize = new Dimension((xScreenSize / 2) - 50, 50);
+		labelTextSize = new Dimension((xScreenSize / 2) - 20, 50);
 		imageIconPath = "img/icon.png";
 		imageBodyPath = "img/background.png";
 		windowTitle = "MyEnglish";
