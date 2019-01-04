@@ -22,8 +22,8 @@ Run this command in terminal:
     sudo tar -xvf myenglish.tar.gz
     sudo make install
 
-and restart your computer or make logout and login in your system. During installation, 
-you will be prompted to enter the email that will be attached to your account in the future!
+During installation, you will be prompted to enter the email that will be attached 
+to your account in the future!
 
 ## How to uninstall
 

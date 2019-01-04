@@ -17,7 +17,7 @@ install: install_before remove preparing
 	apt-get install default-jdk -y
 	-apt autoremove -y
 	rm -r ./install
-	#cd /opt/myenglish/bin && ./myenglish &
+	/opt/myenglish/bin/myenglish
 	@echo -e '\n\e[0;32mThanks! Your web cabinet http://myenglish.tk\n\e[0m'
 
 uninstall: uninstall_before romove_before remove

@@ -1,2 +1,2 @@
 cd /opt/myenglish
-java -jar myenglish.jar
+java -jar myenglish.jar > /dev/null &
