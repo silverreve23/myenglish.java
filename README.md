@@ -16,7 +16,7 @@ MyEnglish app to study English at work, at home and anywhere!
 
 Run this command in terminal:
 
-    sudo wget https://github.com/silverreve23/myenglish.java/raw/master/myenglish.tar.gz
+    sudo wget https://github.com/silverreve23/myenglish.java/raw/v1.2.3/myenglish.tar.gz
     sudo tar -xvf myenglish.tar.gz
     sudo make install
 
