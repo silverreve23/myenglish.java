@@ -20,7 +20,7 @@ class TranslateHandler extends AbstractAction {
 		try {
 			nowAttempt = wordModel.checkTranslate(textField, windowApp);
 			if (nowAttempt > maxAttempt)
-				labelText.setText(wordModel.trans);
+				labelText.setText(" " + wordModel.trans);
 		} catch (Exception exc) {
 		}
 	}
