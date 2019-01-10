@@ -1,0 +1,4 @@
+find ./ -name "*.java" ! -name "*Test*" > source.txt
+javac @source.txt
+rm source.txt
+java MyEnglish

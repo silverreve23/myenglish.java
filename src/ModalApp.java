@@ -39,7 +39,8 @@ class ModalApp {
 	private JDialog dialogModalUpdate;
 	private Integer maxAttempt;
 	private TranslateHandler transHandler;
-	private WordHandler wordHandler;
+	private PlayHandler playHandler;
+	private HomeHandler homeHandler;
 	private UpdateHandler updateHandler;
 	private WordsModel wordModel;
 
@@ -78,7 +79,8 @@ class ModalApp {
 		labelHome = new JLabel(new ImageIcon(ImageHome));
 		labelUpdateModal = new JLabel();
 		dialogModalUpdate = new JDialog(new JFrame(), "New version update!", true);
-		wordHandler = new WordHandler();
+		playHandler = new PlayHandler();
+		homeHandler = new HomeHandler();
 		updateHandler = new UpdateHandler(dialogModalUpdate);
 		transHandler = new TranslateHandler(window, wordModel, labelText, textField);
 	}
@@ -93,10 +95,10 @@ class ModalApp {
 		labelHint.setForeground(new Color(252, 211, 43));
 		labelSong.setPreferredSize(ImageIconSize);
 		labelSong.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		labelSong.addMouseListener(wordHandler);
+		labelSong.addMouseListener(playHandler);
 		labelHome.setPreferredSize(ImageIconSize);
 		labelHome.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		labelHome.addMouseListener(wordHandler);
+		labelHome.addMouseListener(homeHandler);
 		textField.setFont(fontTextField);
 		textField.setBackground(Color.BLACK);
 		textField.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
