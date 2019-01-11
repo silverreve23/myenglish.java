@@ -20,11 +20,12 @@ class WordsModel {
 	public String hint;
 	public String translang;
 	public String updatetext;
+	public String version;
+	public String email;
 	public Integer attempt;
 	public Integer period;
 	public Boolean chkeyboard;
 	private String response;
-	private String userEmail;
 	private String wordLang;
 	private String transLang;
 	private String host;
@@ -38,21 +39,21 @@ class WordsModel {
 	public WordsModel() throws Exception {
 		parser = new JSONParser();
 		host = "http://35.182.114.21";
-		host = "http://myenglish.io";
 		Properties props = new Properties();
 		props.load(new FileInputStream("./config/config.ini"));
-		userEmail = props.getProperty("useremail");
+		email = props.getProperty("useremail");
 		wordLang = props.getProperty("wordlang");
 		transLang = props.getProperty("translang");
+		version = props.getProperty("version");
 		period = getPeriod();
 		translang = getTransLang();
 		chkeyboard = getAutoChangeKeyLang();
-		updatetext = getUpdate();
+		updatetext = checkVersion();
 	}
 
 	public void update() throws Exception {
 		attempt = 0;
-		url = host + "/api/get-word/" + userEmail + "/" + wordLang + "/" + transLang;
+		url = host + "/api/get-word/" + email + "/" + wordLang + "/" + transLang;
 		response = Fetch.get(url);
 		json = (JSONObject) parser.parse(response);
 		word = (String) json.get("word");
@@ -64,13 +65,13 @@ class WordsModel {
 
 	public int checkTranslate(JTextField translate, JDialog window) throws Exception {
 		if (trans.equals(translate.getText())) {
-			url = host + "/api/update-status/success/" + word + "/" + userEmail;
+			url = host + "/api/update-status/success/" + word + "/" + email;
 			Fetch.get(url);
 			window.setVisible(false);
 			if (chkeyboard)
 				Runtime.getRuntime().exec("setxkbmap us");
 		} else {
-			url = host + "/api/update-status/fails/" + word + "/" + userEmail;
+			url = host + "/api/update-status/fails/" + word + "/" + email;
 			Fetch.get(url);
 		}
 		translate.setText(null);
@@ -78,25 +79,25 @@ class WordsModel {
 	}
 
 	private int getPeriod() throws Exception {
-		url = host + "/api/get-period/" + userEmail;
+		url = host + "/api/get-period/" + email;
 		response = Fetch.get(url);
 		return Integer.valueOf(response) * 60000;
 	}
 
-	private String getUpdate() throws Exception {
-		url = host + "/api/get-update";
+	private String checkVersion() throws Exception {
+		url = host + "/api/check-version/" + version;
 		response = Fetch.get(url);
 		return response;
 	}
 
 	private String getTransLang() throws Exception {
-		url = host + "/api/get-translang/" + userEmail;
+		url = host + "/api/get-translang/" + email;
 		response = Fetch.get(url);
 		return response;
 	}
 
 	private boolean getAutoChangeKeyLang() throws Exception {
-		url = host + "/api/get-autochangekeylang/" + userEmail;
+		url = host + "/api/get-autochangekeylang/" + email;
 		response = Fetch.get(url);
 		return Integer.valueOf(response) == 1;
 	}

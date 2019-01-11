@@ -12,7 +12,7 @@ class ModalApp {
 	private JButton buttonUpdateModal;
 	private JTextField textField;
 	private Dimension labelTextSize;
-	private Dimension ImageSize;
+	private Dimension ImageWordSize;
 	private Dimension ImageIconSize;
 	private JDialog window;
 	private Toolkit toolkit;
@@ -29,9 +29,10 @@ class ModalApp {
 	private Image ImageBody;
 	private Image ImagePlay;
 	private Image ImageHome;
-	private JLabel labelIcon;
+	private JLabel labelImage;
 	private JLabel labelText;
 	private JLabel labelHint;
+	private JLabel labelVersion;
 	private JLabel labelLang;
 	private JLabel labelSong;
 	private JLabel labelHome;
@@ -49,16 +50,16 @@ class ModalApp {
 	}
 
 	public void init() {
-		buttonUpdateModal = new JButton("update now!");
-		panel = new JPanel();
-		panelModalUpdate = new JPanel();
-		textField = new JTextField(25);
-		ImageSize = new Dimension(600, 350);
-		ImageIconSize = new Dimension(30, 30);
-		window = new JDialog(new Frame(), true);
 		toolkit = Toolkit.getDefaultToolkit();
 		xScreenSize = (int) toolkit.getScreenSize().getWidth();
 		yScreenSize = (int) toolkit.getScreenSize().getHeight();
+		buttonUpdateModal = new JButton("update now!");
+		panel = new JPanel();
+		panelModalUpdate = new JPanel();
+		textField = new JTextField(20);
+		ImageWordSize = new Dimension((xScreenSize / 2), 350);
+		ImageIconSize = new Dimension(30, 30);
+		window = new JDialog(new Frame(), true);
 		labelTextSize = new Dimension((xScreenSize / 2) - 20, 50);
 		imageIconPath = "img/icon.png";
 		imageBodyPath = "img/background.png";
@@ -71,12 +72,13 @@ class ModalApp {
 		ImageBody = toolkit.getImage(MyEnglish.class.getResource(imageBodyPath));
 		ImagePlay = toolkit.getImage(MyEnglish.class.getResource(imagePlayPath));
 		ImageHome = toolkit.getImage(MyEnglish.class.getResource(imageHomePath));
-		labelIcon = new JLabel(new ImageIcon(ImageBody));
+		labelImage = new JLabel(new ImageIcon(ImageBody));
 		labelText = new JLabel();
 		labelHint = new JLabel();
 		labelLang = new JLabel();
 		labelSong = new JLabel(new ImageIcon(ImagePlay));
 		labelHome = new JLabel(new ImageIcon(ImageHome));
+		labelVersion = new JLabel();
 		labelUpdateModal = new JLabel();
 		dialogModalUpdate = new JDialog(new JFrame(), "New version update!", true);
 		playHandler = new PlayHandler();
@@ -87,12 +89,14 @@ class ModalApp {
 
 	public void run() {
 		maxAttempt = 2;
-		labelIcon.setPreferredSize(ImageSize);
+		labelImage.setPreferredSize(ImageWordSize);
 		labelText.setForeground(Color.WHITE);
 		labelText.setFont(fontTextField);
 		labelText.setPreferredSize(labelTextSize);
+		labelLang.setPreferredSize(new Dimension(120, 50));
 		labelLang.setForeground(new Color(179, 210, 54));
 		labelHint.setForeground(new Color(252, 211, 43));
+		labelHint.setPreferredSize(new Dimension(200, 50));
 		labelSong.setPreferredSize(ImageIconSize);
 		labelSong.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		labelSong.addMouseListener(playHandler);
@@ -119,7 +123,8 @@ class ModalApp {
 		panel.add(textField);
 		panel.add(labelSong);
 		panel.add(labelHome);
-		panel.add(labelIcon);
+		panel.add(labelImage);
+		panel.add(labelVersion);
 		window.add(panel);
 		window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		window.setResizable(false);
@@ -136,6 +141,7 @@ class ModalApp {
 		labelText.setText(" " + wordModel.word + "? - ");
 		labelHint.setText(" hint: " + wordModel.hint + " ");
 		labelLang.setText(" lang: " + wordModel.translang + " ");
+		labelVersion.setText(" User: " + wordModel.email + "   Version: " + wordModel.version);
 		labelUpdateModal.setText(wordModel.updatetext);
 		if (wordModel.updatetext != "")
 			dialogModalUpdate.setVisible(true);
