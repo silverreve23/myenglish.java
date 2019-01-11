@@ -5,6 +5,7 @@ install: install_before remove preparing
 	@read wordlang; if [ -z "$${wordlang}" ]; then wordlang='en'; fi; echo "wordlang=$${wordlang}" >> /opt/myenglish/config/config.ini
 	@echo -e '\e[34mEnter your translate language [en, ru], default ua:\e[0m '
 	@read translang; if [ -z "$${translang}" ]; then translang='ua'; fi; echo "translang=$${translang}" >> /opt/myenglish/config/config.ini
+	@echo "version=2.0.0" >> /opt/myenglish/config/config.ini
 	tar -xvf ./myenglish.tar.gz -C ./install
 	@echo -e '\n\e[0;32mInstall app myenglish!\n\e[0m'
 	cp -r ./install/bin /opt/myenglish

@@ -1,10 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
 import java.awt.Window.*;
 import java.awt.event.*;
 import java.awt.Image;
-
-import java.util.*;
+import java.net.URL;
 
 class ModalApp {
 	private JPanel panel;
@@ -143,7 +143,9 @@ class ModalApp {
 		labelLang.setText(" lang: " + wordModel.translang + " ");
 		labelVersion.setText(" User: " + wordModel.email + "   Version: " + wordModel.version);
 		labelUpdateModal.setText(wordModel.updatetext);
-		if (wordModel.updatetext != "")
+		if (wordModel.image != null && wordModel.image != "")
+			labelImage.setIcon(new ImageIcon(new URL(wordModel.host + wordModel.image)));
+		if (wordModel.updatetext != null && wordModel.updatetext != "")
 			dialogModalUpdate.setVisible(true);
 	}
 

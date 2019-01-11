@@ -18,17 +18,18 @@ class WordsModel {
 	public String word;
 	public String trans;
 	public String hint;
+	public String image;
 	public String translang;
 	public String updatetext;
 	public String version;
 	public String email;
+	public String host;
 	public Integer attempt;
 	public Integer period;
 	public Boolean chkeyboard;
 	private String response;
 	private String wordLang;
 	private String transLang;
-	private String host;
 	private String url;
 	private JSONParser parser;
 	private BufferedReader reader;
@@ -59,6 +60,7 @@ class WordsModel {
 		word = (String) json.get("word");
 		trans = (String) json.get("trans");
 		hint = (String) json.get("hint");
+		image = (String) json.get("image");
 		if (chkeyboard)
 			Runtime.getRuntime().exec("setxkbmap ua");
 	}
