@@ -56,7 +56,7 @@ class ModalApp {
 		buttonUpdateModal = new JButton("update now!");
 		panel = new JPanel();
 		panelModalUpdate = new JPanel();
-		textField = new JTextField(20);
+		textField = new JTextField(22);
 		ImageWordSize = new Dimension((xScreenSize / 2), 350);
 		ImageIconSize = new Dimension(30, 30);
 		window = new JDialog(new Frame(), true);
@@ -72,7 +72,7 @@ class ModalApp {
 		ImageBody = toolkit.getImage(MyEnglish.class.getResource(imageBodyPath));
 		ImagePlay = toolkit.getImage(MyEnglish.class.getResource(imagePlayPath));
 		ImageHome = toolkit.getImage(MyEnglish.class.getResource(imageHomePath));
-		labelImage = new JLabel(new ImageIcon(ImageBody));
+		labelImage = new JLabel(new ImageIcon());
 		labelText = new JLabel();
 		labelHint = new JLabel();
 		labelLang = new JLabel();
@@ -96,7 +96,7 @@ class ModalApp {
 		labelLang.setPreferredSize(new Dimension(120, 50));
 		labelLang.setForeground(new Color(179, 210, 54));
 		labelHint.setForeground(new Color(252, 211, 43));
-		labelHint.setPreferredSize(new Dimension(200, 50));
+		labelHint.setPreferredSize(new Dimension(140, 50));
 		labelSong.setPreferredSize(ImageIconSize);
 		labelSong.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		labelSong.addMouseListener(playHandler);
@@ -145,6 +145,8 @@ class ModalApp {
 		labelUpdateModal.setText(wordModel.updatetext);
 		if (wordModel.image != null && wordModel.image != "")
 			labelImage.setIcon(new ImageIcon(new URL(wordModel.host + wordModel.image)));
+		else
+			labelImage.setIcon(new ImageIcon(ImageBody));
 		if (wordModel.updatetext != null && wordModel.updatetext != "")
 			dialogModalUpdate.setVisible(true);
 	}
